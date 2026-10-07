@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Feedback App</title>
+</head>
+
+<body>
+
+    <h1>Student Feedback App</h1>
+
+    <p>Please share your feedback.</p>
+
+    <label>Student Name:</label>
+    <br>
+
+    <input type="text" id="name" placeholder="Enter your name">
+
+    <br><br>
+
+    <label>Rating:</label>
+    <br>
+
+    <select id="rating">
+        <option value="5">5 - Excellent</option>
+        <option value="4">4 - Very Good</option>
+        <option value="3">3 - Good</option>
+        <option value="2">2 - Average</option>
+        <option value="1">1 - Poor</option>
+    </select>
+
+    <br><br>
+
+    <label>Feedback:</label>
+    <br>
+
+    <textarea id="message" placeholder="Write your feedback"></textarea>
+
+    <br><br>
+
+    <button onclick="submitFeedback()">
+        Submit Feedback
+    </button>
+
+    <h3 id="result"></h3>
+
+
+    <script>
+
+        async function submitFeedback() {
+
+            const name = document.getElementById("name").value;
+            const rating = document.getElementById("rating").value;
+            const message = document.getElementById("message").value;
+
+            const response = await fetch(
+                "http://127.0.0.1:5000/feedback",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        name: name,
+                        rating: rating,
+                        message: message
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            document.getElementById("result").innerText =
+                data.response;
+        }
+
+    </script>
+
+</body>
+
+</html>
